@@ -1,27 +1,21 @@
-exec = k
+exec = K
 sources = $(wildcard src/*.c)
 objects = $(sources:.c=.o)
-wsources = $(wildcard wsrc/*.c)
-obj = $(wsources:.c=.o)
-flags = -g -Wall -lm -ldl -fPIC -rdynamic 
+flags = -g -Wall -lm -ldl -fPIC -rdynamic
 
-$(exec):$(objects)
+$(exec): $(objects)
 	gcc $(objects) $(flags) -o $(exec)
 
-%.o: %.c include/%.h 
+%.o: %.c include/%.h
 	gcc -c $(flags) $< -o $@
 
-win:
-	gcc.exe -Wall -O2  -c $(wsources) -o $(obj)
-	gcc.exe  -o x.exe $(obj)  -s 
+install:
+	make
+	cp ./K /usr/local/bin/K
 
 clean:
-	-rm k 
-	-rm src/*.o
-	-rm *.a
-	-rm *.o
-	-rm wsrc/*.o
-	-rm x.exe
+	rm src/*.o
+	rm K
 
 lint:
 	clang-tidy src/*.c src/include/*.h
